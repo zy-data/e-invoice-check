@@ -24,9 +24,13 @@
 """
 
 import csv
+import colorama
 
 # data.csv 中记录了已报销的发票信息
 filename = "data.csv"
+
+# 初始化 colorama
+colorama.init()
 
 
 def get_qrcode_data():
@@ -111,20 +115,32 @@ def check_validity():
         return 0
     else:
         if fphm in get_fphm_list_from_fpdm(fpdm):
+            # 红底白字显示
+            print(colorama.Fore.WHITE + colorama.Back.RED, end="")
             print("*************注意！！！*************")
             print("该发票已报销！不能重复报销！请检查！")
             print("************************************\n")
+            # 恢复默认显示
+            print(colorama.Style.RESET_ALL, end="")
         else:
             with open(filename, 'a', encoding='utf-8') as f:
                 f.write(qrcode_write_to_file + "\n")
+                # 灰底白字显示
+                print(colorama.Fore.BLACK + colorama.Back.WHITE, end="")
                 print("-------发票信息正常，已保存！-------\n")
+                # 恢复默认显示
+                print(colorama.Style.RESET_ALL, end="")
         return 1
 
 
 def main():
+    # 蓝底白字显示
+    print(colorama.Fore.WHITE + colorama.Back.BLUE, end="")
     print("****************************")
     print("*     电子发票查重工具     *")
     print("****************************\n")
+    # 恢复默认显示
+    print(colorama.Style.RESET_ALL, end="")
 
     while True:
         # 判断是否退出程序
